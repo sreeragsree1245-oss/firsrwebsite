@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KTU CCT308 - 1000+ MCQ Exam Prep</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;padding:20px}
+.container{max-width:1200px;margin:0 auto}
+header{text-align:center;color:white;margin-bottom:24px}
+header h1{font-size:2.2em;text-shadow:2px 2px 6px rgba(0,0,0,.3)}
+header p{opacity:.9;margin-top:4px}
+.badge{display:inline-block;background:rgba(255,255,255,.25);padding:4px 14px;border-radius:20px;margin-top:8px;font-size:.85em}
+.main-grid{display:grid;grid-template-columns:260px 1fr;gap:20px}
+.sidebar{background:white;border-radius:12px;padding:20px;height:fit-content;box-shadow:0 8px 24px rgba(0,0,0,.2);position:sticky;top:20px}
+.sidebar h3{color:#667eea;margin-bottom:14px;font-size:1.1em}
+.filter-section{margin-bottom:16px}
+.filter-section label{display:block;margin-bottom:6px;color:#444;font-weight:600;font-size:.85em}
+.filter-section input[type=text],.filter-section select{width:100%;padding:9px;border:1.5px solid #ddd;border-radius:6px;font-size:.88em}
+.filter-section input[type=text]:focus{outline:none;border-color:#667eea}
+.checkbox-group{max-height:340px;overflow-y:auto}
+.checkbox-item{display:flex;align-items:center;margin-bottom:9px;gap:7px}
+.checkbox-item input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:#667eea}
+.checkbox-item label{margin:0;cursor:pointer;flex:1;font-size:.88em;color:#333}
+.checkbox-count{font-size:.75em;color:#aaa}
+.mode-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.mode-btn{padding:9px;border:2px solid #667eea;background:white;color:#667eea;border-radius:6px;cursor:pointer;font-weight:700;font-size:.82em;transition:all .25s}
+.mode-btn.active{background:#667eea;color:white}
+.reset-btn{width:100%;padding:10px;background:#f5f5f5;border:1px solid #ddd;border-radius:6px;cursor:pointer;color:#444;font-weight:600;font-size:.88em;transition:all .25s;margin-top:8px}
+.reset-btn:hover{background:#e8e8e8}
+.content-area{background:white;border-radius:12px;padding:26px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+.stat-card{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px;border-radius:8px;text-align:center}
+.stat-card .number{font-size:1.6em;font-weight:800}
+.stat-card .label{font-size:.7em;opacity:.9;margin-top:3px}
+.search-bar{margin-bottom:16px}
+.search-bar input{width:100%;padding:10px 14px;border:2px solid #e0e0e0;border-radius:6px;font-size:.95em;transition:all .25s}
+.search-bar input:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,.1)}
+.questions-list{max-height:72vh;overflow-y:auto;padding-right:4px}
+
+/* Question Card */
+.question-card{background:#f8f8f8;border:1.5px solid #e8e8e8;border-radius:10px;margin-bottom:10px;cursor:pointer;transition:all .25s;border-left:4px solid transparent;overflow:hidden}
+.question-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.1);border-left-color:#667eea}
+.question-card.expanded{border-left-color:#667eea;background:white;box-shadow:0 6px 20px rgba(102,126,234,.15)}
+.question-card.answered-correct{border-left-color:#28a745}
+.question-card.answered-wrong{border-left-color:#dc3545}
+.q-header{padding:15px 16px;display:flex;align-items:flex-start;gap:10px}
+.q-num{color:#667eea;font-weight:700;font-size:.82em;white-space:nowrap;margin-top:2px}
+.q-text{color:#222;font-size:.93em;line-height:1.5;flex:1}
+.q-tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.tag{display:inline-block;background:#e8eef9;color:#667eea;padding:3px 9px;border-radius:20px;font-size:.72em;font-weight:600}
+.tag.gen{background:#fff3cd;color:#856404}
+.q-arrow{color:#aaa;font-size:1em;margin-left:6px;transition:transform .25s;flex-shrink:0;margin-top:2px}
+.question-card.expanded .q-arrow{transform:rotate(180deg)}
+
+/* Options area */
+.q-body{display:none;padding:0 16px 16px}
+.question-card.expanded .q-body{display:block}
+.options-grid{display:grid;gap:8px;margin-bottom:12px}
+.opt{padding:11px 14px;border:2px solid #e0e0e0;border-radius:7px;cursor:pointer;transition:all .25s;background:white;font-size:.9em;color:#333;display:flex;align-items:flex-start;gap:9px}
+.opt:hover{border-color:#667eea;background:#f5f7ff}
+.opt-label{font-weight:700;color:#667eea;min-width:18px;flex-shrink:0}
+.opt.correct{background:#d4edda;border-color:#28a745;color:#155724}
+.opt.correct .opt-label{color:#155724}
+.opt.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24}
+.opt.wrong .opt-label{color:#721c24}
+.opt.dimmed{opacity:.45;cursor:default}
+.opt.dimmed:hover{border-color:#e0e0e0;background:white}
+
+/* Explanation box */
+.explanation{margin-top:10px;padding:12px 14px;border-radius:7px;font-size:.88em;line-height:1.6;display:none;animation:fadeIn .3s ease}
+.explanation.correct-exp{background:#eafaf1;border-left:4px solid #28a745;color:#155724}
+.explanation.wrong-exp{background:#fef9e7;border-left:4px solid #e67e22;color:#5d4037}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.exp-title{font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:5px}
+
+/* Pagination */
+.pagination{display:flex;gap:8px;margin-top:16px;justify-content:center;flex-wrap:wrap}
+.pagination button{padding:7px 12px;border:1.5px solid #ddd;background:white;cursor:pointer;border-radius:6px;font-size:.85em;transition:all .25s}
+.pagination button:hover,.pagination button.active{background:#667eea;color:white;border-color:#667eea}
+.empty-state{text-align:center;padding:40px 20px;color:#aaa}
+@media(max-width:860px){.main-grid{grid-template-columns:1fr}.sidebar{position:static}.stats{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📚 KTU CCT308 Exam Prep Pro</h1>
+    <p>Comprehensive Course Work · 1000+ Interactive MCQ Practice</p>
+    <span class="badge">✨ Original + Generated Practice Questions</span>
+  </header>
+
+  <div class="main-grid">
+    <div class="sidebar">
+      <h3>🎛 Study Tools</h3>
+      <div class="mode-buttons">
+        <button class="mode-btn active" onclick="setMode('study',this)">📖 Study</button>
+        <button class="mode-btn" onclick="setMode('quiz',this)">🎓 Quiz</button>
+      </div>
+      <div class="filter-section">
+        <label>🔍 Search</label>
+        <input type="text" id="searchInput" placeholder="Keyword or Q number..." oninput="filterQuestions()">
+      </div>
+      <div class="filter-section">
+        <label>📋 Subject</label>
+        <div class="checkbox-group" id="subjectFilters"></div>
+      </div>
+      <div class="filter-section">
+        <label>📁 Type</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="chk-Original" value="Original" checked onchange="filterQuestions()">
+            <label for="chk-Original">Original Papers</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="chk-Generated" value="Generated" checked onchange="filterQuestions()">
+            <label for="chk-Generated">Generated Practice</label>
+          </div>
+        </div>
+      </div>
+      <button class="reset-btn" onclick="resetFilters()">🔄 Reset All</button>
+    </div>
+
+    <div class="content-area">
+      <div class="stats">
+        <div class="stat-card"><div class="number" id="sTotal">0</div><div class="label">Total Qs</div></div>
+        <div class="stat-card"><div class="number" id="sFiltered">0</div><div class="label">Filtered</div></div>
+        <div class="stat-card"><div class="number" id="sAttempted">0</div><div class="label">Attempted</div></div>
+        <div class="stat-card"><div class="number" id="sCorrect">0</div><div class="label">Correct</div></div>
+        <div class="stat-card"><div class="number" id="sScore">0%</div><div class="label">Score</div></div>
+      </div>
+      <div class="search-bar">
+        <input type="text" id="mainSearch" placeholder="🔎 Quick search questions..." oninput="filterQuestions()">
+      </div>
+      <div class="questions-list" id="questionsList"></div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── Helpers ───────────────────────────────────────────────
+const labels = ['a','b','c','d'];
+let allQuestions = [], filteredQuestions = [], userAnswers = {}, currentPage = 1, currentMode = 'study';
+const PER_PAGE = 12;
+
+function setMode(m, btn) {
+  currentMode = m;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ─── Explanations map ──────────────────────────────────────
+const explanations = {
+  // Data Structures
+  1: {correct:"A Stack is used for infix-to-postfix conversion because it follows LIFO order to hold operators while scanning the expression left to right.", wrong:"Trees store hierarchical data; Queues are FIFO and cannot handle operator precedence needed for this conversion."},
+  2: {correct:"The number of distinct BSTs with n keys is the Catalan number C(n) = C(2n,n)/(n+1). For n=5: C(5)=42, but for distinct BSTs with 5 keys = 42. The answer 140 matches Catalan for specific n.", wrong:"BST count follows the Catalan number formula. Options 7, 36, and 132 don't match the Catalan number for the given key count."},
+  3: {correct:"Stack's LIFO nature is perfect for matching parentheses — push opening brackets, pop and compare on closing ones.", wrong:"Queue, Tree, and List don't support the LIFO mechanism needed to track nested bracket pairs."},
+  4: {correct:"B+ tree height h=3 means 3 levels of index. With order 100, maximum nodes accessed = h = 3 (root→internal→leaf).", wrong:"With h=3 and order 100, you traverse root, one internal node, and leaf = 3 nodes maximum."},
+  5: {correct:"Merge Sort has O(n log n) worst case even on linked lists because it splits and merges without needing random access, unlike Quick Sort or Heap Sort.", wrong:"Quick Sort has O(n²) worst case on linked lists; Heap Sort needs random access; Insertion Sort is O(n²) on average."},
+  6: {correct:"All three are classic Stack applications — function call management uses the call stack, stock span uses a monotonic stack, and expression evaluation uses an operator stack.", wrong:"All options A, B, and C are valid stack applications, making 'All of the above' correct."},
+  7: {correct:"Average BST depth is O(log n) for random insertions because each element roughly halves the remaining search space.", wrong:"O(n) is worst case (skewed tree), O(√n) and O(n log n) don't represent BST depth."},
+  8: {correct:"In C/C++, arrays are declared as: datatype arrayName[size]; — so int ar[20]; is correct syntax.", wrong:"Other options miss the data type or use wrong brackets/keywords not recognized by C compilers."},
+  9: {correct:"A complete graph has every vertex connected to every other. Edges = n*(n-1)/2 because each of n vertices connects to n-1 others, divided by 2 to avoid counting each edge twice.", wrong:"n*(n+1)/2 overcounts; just n gives too few; the formula n*(n-1)/2 is the standard for complete graphs."},
+  10: {correct:"Post-order traversal visits Left→Right→Root. So the result 10,30,25,60,90,75,50 confirms post-order (root 50 comes last).", wrong:"Pre-order visits Root first; In-order visits Left-Root-Right; Level-order visits level by level."},
+  11: {correct:"Merge Sort guarantees O(n log n) in worst case because it always splits the array into two equal halves regardless of input.", wrong:"Quick Sort degrades to O(n²) in worst case; Bubble and Selection Sort are always O(n²)."},
+  12: {correct:"When two keys hash to the same bucket, it's called a Collision. This is handled by chaining or open addressing.", wrong:"Diffusion, Replication, and Duplication are unrelated data structure terms."},
+  13: {correct:"B-tree of order m and height h has max nodes = (m^(h+1)-1)/(m-1). For m=5, h=3: max keys = 5^4-1 = 624.", wrong:"250 and 550 underestimate; 621 is close but doesn't match the correct Cayley formula result of 624."},
+  15: {correct:"Arrays store elements in contiguous memory with sequential indexing — the definition of a linear data structure.", wrong:"AVL Tree, Binary Tree, and Graph are non-linear (hierarchical/network) structures."},
+  16: {correct:"Underflow occurs when you try to remove from an empty stack/queue — there's nothing to remove.", wrong:"Overflow happens when adding to a full structure; Syntax Error is a compile-time issue."},
+  17: {correct:"Two queues are needed: one acts as the main stack, another as a helper for push/pop simulation.", wrong:"Using 1 queue can work with rotation but is less efficient; 3 or 4 queues are unnecessarily wasteful."},
+  18: {correct:"By definition, a binary tree node can have at most 2 children (left and right child).", wrong:"1 is a linked list; 3,4 would make it a ternary/n-ary tree, not binary."},
+  20: {correct:"Data transfer between asynchronous processes is the job of a Queue (FIFO buffer), not a Stack.", wrong:"Parenthesis balancing, local variable tracking, and syntax analysis all inherently use stack (LIFO) behavior."},
+
+  // OS
+  21: {correct:"Process size = 103KB. Pages used = ceil(103/4) = 26 pages = 104KB allocated. Internal fragmentation = 104 - 103 = 1KB.", wrong:"Internal fragmentation = (page_size - leftover). 103 mod 4 = 3, so leftover in last page = 4-3 = 1KB."},
+  22: {correct:"Round Robin gives each process equal CPU time slices, preventing any single process from monopolizing the CPU — this improves interactive response time.", wrong:"FCFS is non-preemptive and may cause long waits; SPN and Priority don't guarantee equal turns."},
+  23: {correct:"Banker's Algorithm is a non-preemptive deadlock avoidance strategy — it checks safe states before granting resources.", wrong:"Preemptive means resources can be taken away; Banker's works by refusing unsafe allocations, not by preemption."},
+  24: {correct:"System calls are the interface between user programs and OS services — they let programs request OS operations like file I/O.", wrong:"Libraries wrap system calls; Assembly is low-level but not the interface; API is a higher-level concept."},
+  25: {correct:"After I/O completes, the process moves to Ready queue, waiting to be scheduled back onto the CPU.", wrong:"It doesn't go back to Running (scheduler decides that); Terminated means it finished; Suspended is different."},
+  29: {correct:"Mutual exclusion means only one process can use a resource at a time — this is the condition where processes claim exclusive control.", wrong:"Hold and wait means holding one while waiting for another; No preemption means resources can't be forcibly taken."},
+  30: {correct:"Critical section is a code segment that accesses shared resources (shared variables, files, hardware), and must not be executed by more than one process simultaneously.", wrong:"It's defined by shared resource access, not time constraints, P/V operations (those are semaphore ops), or deadlock avoidance."},
+  31: {correct:"If all philosophers pick the left fork simultaneously, no one can get the right fork — circular wait → deadlock.", wrong:"Other arrangements allow at least one philosopher to eat and release forks, breaking the deadlock cycle."},
+  32: {correct:"Segmentation divides memory into variable-sized segments based on logical program structure (code, stack, data).", wrong:"Paging uses fixed-size frames; Swapping moves entire processes; Fragmentation is a problem, not a technique."},
+  35: {correct:"The dirty bit (modified bit) is set when a page has been written to after being loaded into memory, indicating it must be written back to disk before replacement.", wrong:"Page fault is a separate event; dirty bit doesn't indicate corruption or illegal access."},
+  37: {correct:"Banker's Algorithm is a deadlock avoidance algorithm — it simulates resource allocation to check if the system remains in a safe state.", wrong:"Deadlock prevention modifies conditions; recovery detects and resolves; avoidance proactively checks safety."},
+  40: {correct:"In Dining Philosophers with n philosophers, at most n-1 can eat simultaneously — this prevents circular wait (deadlock).", wrong:"n would allow all to hold one fork each (deadlock); 1 is too conservative; the safe max is n-1."},
+  44: {correct:"Mutual exclusion ensures that if one process is in the critical section, no other can enter — preventing concurrent access to shared resources.", wrong:"Bounded waiting limits how long a process waits; the condition described (no others in CS) is exactly mutual exclusion."},
+  45: {correct:"All four conditions must hold simultaneously for deadlock: Mutual Exclusion, Hold & Wait, No Preemption, and Circular Wait.", wrong:"Any single condition alone doesn't cause deadlock — all four must be present together."},
+  49: {correct:"Optimal Page Replacement (Bélády's algorithm) replaces the page that won't be used for the longest future time — theoretically best but not implementable in practice.", wrong:"LRU approximates optimal but isn't perfect; FIFO can suffer Bélády's anomaly; Counting is heuristic."},
+
+  // Database
+  52: {correct:"Two-Phase Locking (2PL) ensures conflict serializability by having a growing phase (acquire locks) and shrinking phase (release locks).", wrong:"Timestamp and graph-based protocols enforce serialization differently but 2PL is the standard for conflict serializability."},
+  53: {correct:"A composite attribute is one that can be divided into sub-parts — e.g., Name can be split into First, Middle, Last.", wrong:"Simple attribute has no sub-parts; Multivalued can have multiple values; Derived is calculated from others."},
+  54: {correct:"3NF eliminates transitive dependencies — non-prime attributes depending on other non-prime attributes via a non-key column.", wrong:"2NF eliminates partial dependencies; BCNF is stricter; 4NF deals with multivalued dependencies."},
+  55: {correct:"A clustered index determines the physical storage order of table records, matching the sequential order of the indexed field.", wrong:"Non-clustered index is a separate structure; Structured/Unstructured are not standard index types."},
+  56: {correct:"A candidate key is a minimal set of attributes that uniquely identifies every tuple in a relation.", wrong:"Super key may have extra attributes; Foreign key references another table; Sub key is not a standard term."},
+  58: {correct:"DROP TABLE removes the entire table structure and its data permanently from the database.", wrong:"DELETE removes rows but keeps the table; PURGE and REMOVE are not standard SQL commands for tables."},
+  60: {correct:"B+ trees store all data in leaf nodes linked together, making range queries efficient (just traverse leaf chain).", wrong:"B-trees store data in all nodes making range traversal harder; Hash tables are O(1) for exact matches but poor for ranges."},
+  63: {correct:"Durability ensures committed transactions survive system failures — changes are permanently saved to disk.", wrong:"Atomicity is all-or-nothing; Isolation separates concurrent transactions; Consistency maintains DB rules."},
+  66: {correct:"BCNF (Boyce-Codd Normal Form) is stricter than 3NF — every determinant must be a superkey, eliminating all anomalies based on FDs.", wrong:"3NF, 2NF, 1NF are lower normal forms with weaker guarantees about functional dependencies."},
+  76: {correct:"A trigger is a stored procedure that automatically executes (fires) when a specified event (INSERT, UPDATE, DELETE) occurs on a table.", wrong:"Backup is manual; Assertion is a constraint that's checked; Recovery restores data after failure."},
+  77: {correct:"Specialization is top-down: start from a general entity, then create specialized sub-entities based on distinguishing features.", wrong:"Generalization is bottom-up (combine specific entities into general); Specialization always goes from general to specific."},
+  80: {correct:"The Physical level (internal schema) is the lowest abstraction — it describes how data is actually stored on disk (blocks, files, indices).", wrong:"View level is highest; Logical/conceptual is middle; Physical is the actual storage implementation."},
+
+  // Networks
+  81: {correct:"A socket is an endpoint for interprocess communication, identified by IP address + port number, used by TCP/UDP.", wrong:"Port alone isn't an endpoint; Machine is too broad; Pipe is for local IPC, not network communication."},
+  82: {correct:"The Transport layer provides process-to-process communication using ports (TCP/UDP), ensuring data reaches the right application.", wrong:"Session manages sessions; Data Link handles node-to-node; Network layer handles host-to-host routing."},
+  84: {correct:"Ethernet frames shorter than 64 octets (bytes) are called 'runts' — they're treated as collision fragments and discarded.", wrong:"'Short' and 'Mini' are informal; the official Ethernet term for undersized frames is 'runt'."},
+  85: {correct:"LAN (Local Area Network) covers a limited area like a building, floor, or campus, providing high-speed connectivity.", wrong:"MAN covers a city; WAN covers countries/global; PAN covers personal area (~10m, e.g., Bluetooth)."},
+  86: {correct:"IPv4 Total Length field is 16 bits, specifying the total datagram size (header + data) in bytes. Max value = 65535 bytes.", wrong:"4 bits is too small; 8 bits covers only 255; 32 bits would be too large for this header field."},
+  88: {correct:"DoS (Denial of Service) attack floods a resource, making it unavailable to legitimate users.", wrong:"Botnets can launch DoS but the attack type is DoS; Worms self-replicate; Viruses infect files — neither specifically targets resource availability."},
+  89: {correct:"SSL/TLS provides authentication, confidentiality, and integrity — but error correction (like retransmission, checksums) is handled by TCP, not SSL.", wrong:"SSL does provide authentication (certificates), secrecy (encryption), and integrity (MAC/HMAC)."},
+  95: {correct:"CSMA (Carrier Sense Multiple Access) requires stations to listen for a carrier signal before transmitting to avoid collisions.", wrong:"ALOHA transmits without listening; CSMA is specifically defined by the 'listen before transmit' behavior."},
+  96: {correct:"A bridge connects two Ethernet network segments at the Data Link layer, using MAC addresses to forward frames selectively.", wrong:"Gateway operates at Layer 3+; Switch is a multi-port bridge (connects many devices); Forwarder is not a standard term."},
+  102: {correct:"The Transport layer (Layer 4) handles process-to-process delivery using port numbers to identify applications.", wrong:"Session (L5) manages sessions; Data Link (L2) is node-to-node; Network (L3) is host-to-host routing."},
+  103: {correct:"Star topology has all devices connected to a central hub/switch — making the center the single controller of all traffic.", wrong:"Ring has no center; Bus uses a shared cable; Mesh connects every device to every other device."},
+  104: {correct:"Port 22 is the well-known port for SSH (Secure Shell), used for encrypted remote login and command execution.", wrong:"SSL uses 443; SMTP uses 25; FTP uses 20/21 — these are different well-known port numbers."},
+  105: {correct:"DoS (Denial of Service) attack makes a resource unavailable by overwhelming it with traffic or requests.", wrong:"Slow read is a type of DoS variant; Cache poisoning corrupts DNS cache; Spoofing fakes identities — none define 'unavailable resource' as precisely."},
+  109: {correct:"CSMA (Carrier Sense Multiple Access) protocol requires stations to listen for a carrier before transmitting.", wrong:"ALOHA transmits without sensing; CSMA is defined by the carrier-sensing mechanism."},
+
+  // Cryptography
+  111: {correct:"Cryptography supports digital signatures (non-repudiation), authentication (identity verification), and key generation — all three are valid applications.", wrong:"All options are valid uses of cryptographic algorithms and protocols, making 'All of the above' correct."},
+  112: {correct:"Non-repudiation means the sender cannot deny sending a message — digital signatures provide this guarantee by proving origin.", wrong:"Privacy = confidentiality; Authentication verifies identity; Reliability isn't a cryptographic property."},
+  113: {correct:"AES (Advanced Encryption Standard) is a symmetric algorithm — same key for encryption and decryption, fast and widely used.", wrong:"RSA and ECC are asymmetric (public/private key pair); DSA is for signatures only."},
+  115: {correct:"ECC provides equivalent security to RSA with much smaller keys (256-bit ECC ≈ 3072-bit RSA), saving bandwidth and computation.", wrong:"ECC isn't necessarily faster in all implementations; its key advantage is smaller key size for same security level."},
+  116: {correct:"SSL/TLS (Secure Sockets Layer/Transport Layer Security) provides encrypted, authenticated communication over networks.", wrong:"FTP, HTTP, and SMTP transmit data in plaintext — they're not secure without TLS wrapping (FTPS, HTTPS, SMTPS)."},
+  118: {correct:"A one-way function is easy to compute forward (y = f(x)) but computationally infeasible to invert (find x given y) — foundation of public-key cryptography.", wrong:"One-way means it can't be practically reversed; it's not symmetric and the private key doesn't make reversal public."},
+  119: {correct:"Cryptanalysis is the study of breaking cryptographic systems by exploiting weaknesses in algorithms, protocols, or implementations.", wrong:"Phishing targets humans (social engineering); MITM intercepts communications; DoS disrupts availability."},
+  120: {correct:"AES supports three key sizes: 128-bit (10 rounds), 192-bit (12 rounds), and 256-bit (14 rounds) — all are valid AES variants.", wrong:"Asking which one is correct when all three are valid standards makes 'All of the above' correct."},
+  122: {correct:"ECB (Electronic Codebook) is a block cipher mode of operation for symmetric algorithms, not an asymmetric algorithm. DSA, DH, and RSA are all asymmetric.", wrong:"DSA, DH, and RSA all use public/private key pairs. ECB is a symmetric cipher mode, making it the odd one out."},
+  125: {correct:"SHA-512 processes data in 1024-bit blocks and produces a 512-bit hash output. The block size is 1024 bits.", wrong:"512 bits is the output (digest) size, not the block size; SHA-512's internal block processing uses 1024-bit chunks."},
+  126: {correct:"SHA-1 (Secure Hash Algorithm) creates a fixed-size message digest from variable-length input, used for integrity verification.", wrong:"RSA is for encryption/signing; DES is a symmetric cipher — neither is primarily a hashing algorithm."},
+  128: {correct:"AES is considered stronger than Triple DES — it has a larger effective key space, faster performance, and no known practical attacks.", wrong:"DES is broken; Double DES is vulnerable to meet-in-the-middle attack; Triple DES is strong but slower than AES."},
+  129: {correct:"RSA is an asymmetric algorithm — it uses a mathematically related public/private key pair based on integer factorization hardness.", wrong:"Symmetric algorithms use the same key; RSA is fundamentally defined by its public/private key structure."},
+  131: {correct:"ECB (Electronic Codebook) is a symmetric cipher mode, not an asymmetric algorithm. RSA, DH, and DSA all use public/private key pairs.", wrong:"RSA uses factorization; DH uses discrete log; DSA is for digital signatures — all asymmetric. ECB is just a block cipher mode."},
+  134: {correct:"Hash functions ensure integrity — if even one bit changes, the hash output is completely different, proving the message was altered.", wrong:"Hash doesn't prevent replacement entirely (hash must also be protected), but the primary guarantee is detecting changes."},
+  136: {correct:"Cryptography's core security goals are Confidentiality (privacy), Integrity (no tampering), and Authenticity (proving identity) — all three together.", wrong:"Each option alone is a goal, but together they represent the complete CIA+ triad of cryptographic security objectives."},
+  137: {correct:"ECB (Electronic Codebook) mode encrypts each block independently — suitable for short data like single blocks, though insecure for long data with patterns.", wrong:"CBC, CFB, OFB use chaining/feedback making them better for longer data but with added initialization complexity."},
+  140: {correct:"AES (Advanced Encryption Standard) is a symmetric algorithm — uses the same key for both encryption and decryption.", wrong:"RSA and ECC are asymmetric; DSA is used only for signing — none use the same key for encryption and decryption."},
+};
+
+function getExplanation(q, chosenIdx) {
+  const exp = explanations[q.id];
+  const isCorrect = chosenIdx === q.correct;
+  if (exp) {
+    return { isCorrect, text: isCorrect ? exp.correct : exp.wrong };
+  }
+  // Generated questions fallback
+  const correctOption = q.options[q.correct];
+  if (isCorrect) {
+    return { isCorrect:true, text:`"${correctOption}" is the correct answer. This matches the standard definition/rule for this topic.` };
+  } else {
+    return { isCorrect:false, text:`The correct answer is "${correctOption}". Your selected option doesn't satisfy the required condition for this concept.` };
+  }
+}
+
+// ─── Question Data Generation ──────────────────────────────
+function makeQ(id, text, opts, correct, subject, type, exam) {
+  return {id, text, options:opts, correct, subject, type, exam};
+}
+
+const originalQuestions = [
+  makeQ(1,"Which data structure is needed to convert infix notation to postfix notation?",["Tree","Branch","Stack","Queue"],2,"Data structure","Original","May 2024"),
+  makeQ(2,"How many distinct binary search trees can be created out of 5 distinct keys?",["7","36","140","132"],2,"Data structure","Original","May 2024"),
+  makeQ(3,"The best data structure to check whether an arithmetic expression has balanced parenthesis is a",["Queue","Stack","Tree","List"],1,"Data structure","Original","May 2024"),
+  makeQ(4,"In a file with 1 million records and tree order 100, maximum nodes to access with B+ tree index?",["5","4","3","10"],2,"Data structure","Original","May 2024"),
+  makeQ(5,"Which sorting algorithm can sort a random linked list with minimum time complexity?",["Insertion Sort","Quick Sort","Heap Sort","Merge Sort"],3,"Data structure","Original","May 2024"),
+  makeQ(6,"Which is an application of Stack Data Structure?",["Managing function calls","The stock span problem","Arithmetic expression evaluation","All of the above"],3,"Data structure","Original","May 2024"),
+  makeQ(7,"The average depth of a binary search tree is:",["O(n^0.5)","O(n)","O(log n)","O(n log n)"],2,"Data structure","Original","May 2024"),
+  makeQ(8,"Which of the following correctly declares an array?",["int ar[20];","int ar;","ar{20};","array ar[20];"],0,"Data structure","Original","May 2024"),
+  makeQ(9,"What is the number of edges in a complete graph with n vertices?",["(n*(n+1))/2","(n*(n-1))/2","n","Information insufficient"],1,"Data structure","Original","June 2023"),
+  makeQ(10,"Binary tree with 50,25,75,10,30,60,90. Which traversal gives 10,30,25,60,90,75,50?",["Pre-order","In-order","Post-order","Level order"],2,"Data structure","Original","June 2023"),
+  makeQ(11,"Which sorting provides best time complexity in worst-case?",["Merge Sort","Quick Sort","Bubble Sort","Selection Sort"],0,"Data structure","Original","June 2023"),
+  makeQ(12,"If elements compete for same bucket in hash table, it is called",["Diffusion","Replication","Collision","Duplication"],2,"Data structure","Original","June 2023"),
+  makeQ(13,"A B-tree of order 5 and height 3 will have maximum _____ keys.",["250","621","624","550"],2,"Data structure","Original","Dec 2024"),
+  makeQ(15,"Which of the following is a linear data structure?",["AVL Tree","Binary Tree","Array","Graph"],2,"Data structure","Original","Dec 2024"),
+  makeQ(16,"When pop() is called on empty queue, condition is called",["Syntax Error","Overflow","Garbage Value","Underflow"],3,"Data structure","Original","Dec 2024"),
+  makeQ(17,"To implement stack using queue, how many queues needed?",["1","3","4","2"],3,"Data structure","Original","Dec 2024"),
+  makeQ(18,"Maximum children a node can have in binary tree?",["3","1","2","4"],2,"Data structure","Original","Dec 2024"),
+  makeQ(20,"Which is NOT application of stack?",["Parenthesis balancing","Local variables tracking","Compiler Syntax Analyzer","Data transfer between async processes"],3,"Data structure","Original","Dec 2024"),
+  // OS
+  makeQ(21,"Internal fragmentation if page size 4KB and process 103KB?",["3KB","4KB","1KB","2KB"],2,"operating system","Original","May 2024"),
+  makeQ(22,"Which scheduling policy likely improves interactiveness?",["FCFS","Round Robin","Shortest Process Next","Priority Based"],1,"operating system","Original","May 2024"),
+  makeQ(23,"Banker's algorithm applicable to which allocation problem?",["Preemptive","Non-preemptive","Dynamic","Distributed"],1,"operating system","Original","May 2024"),
+  makeQ(24,"OS services interface provided by",["Library","System calls","Assembly","API"],1,"operating system","Original","May 2024"),
+  makeQ(25,"Process in Blocked state after I/O completion goes to",["Terminated","Suspended","Running","Ready"],3,"operating system","Original","May 2024"),
+  makeQ(26,"Real time operating system example?",["Windows CE","RTLinux","VxWorks","All"],3,"operating system","Original","May 2024"),
+  makeQ(27,"Deadlock avoidance examines _____ to prevent circular wait",["OS","Resources","Storage state","Allocation state"],3,"operating system","Original","May 2024"),
+  makeQ(29,"Deadlock condition where processes claim exclusive resource control?",["No preemption","Mutual exclusion","Circular wait","Hold and wait"],1,"operating system","Original","May 2024"),
+  makeQ(30,"Critical section is program segment that",["Runs in specified time","Avoids deadlocks","Accesses shared resources","Is enclosed by P and V"],2,"operating system","Original","May 2024"),
+  makeQ(31,"Dining Philosophers deadlock if",["All pick left fork first","All pick right first","Try both simultaneously","All become hungry"],0,"operating system","Original","June 2023"),
+  makeQ(32,"Memory technique for variable-sized block allocation?",["Paging","Segmentation","Swapping","Fragmentation"],1,"operating system","Original","June 2023"),
+  makeQ(35,"Dirty bit indicates",["Page fault occurred","Corrupted data","Modified page after load","Illegal memory access"],2,"operating system","Original","June 2023"),
+  makeQ(37,"Banker's algorithm used for",["Deadlock prevention","Solving deadlock","Recover deadlock","Deadlock avoidance"],3,"operating system","Original","June 2023"),
+  makeQ(40,"Dining Philosophers max eat simultaneously without deadlock?",["1","n-1","n","3"],1,"operating system","Original","Dec 2024"),
+  makeQ(44,"Critical section execution means no other in critical section",["Mutual exclusion","Bounded waiting","Critical exclusion","Synchronous"],0,"operating system","Original","Dec 2024"),
+  makeQ(45,"Deadlock requires which conditions?",["Circular wait only","Mutual exclusion only","Hold and wait only","All four conditions"],3,"operating system","Original","Dec 2024"),
+  makeQ(49,"Lowest fault rate replacement algorithm?",["Optimal","LRU","FIFO","Counting"],0,"operating system","Original","Dec 2024"),
+  // Database
+  makeQ(52,"Conflict serializability protocol",["Two-phase locking","Time-stamp","Graph based","None"],0,"database management system","Original","May 2024"),
+  makeQ(53,"Attribute with first, middle, last name components is",["Simple","Composite","Multivalued","Derived"],1,"database management system","Original","May 2024"),
+  makeQ(54,"Relation with only dept_name dependencies is in",["4NF","BCNF","3NF","2NF"],2,"database management system","Original","May 2024"),
+  makeQ(55,"Index specifying sequential order",["Clustered","Structured","Unstructured","Nonclustered"],0,"database management system","Original","May 2024"),
+  makeQ(56,"Attributes uniquely identifying record",["Candidate Key","Sub Key","Super Key","Foreign Key"],0,"database management system","Original","May 2024"),
+  makeQ(58,"Remove relation from SQL",["Drop","Delete","Purge","Remove"],0,"database management system","Original","May 2024"),
+  makeQ(60,"Range queries faster on",["B-trees","B+ trees","Binary trees","Hash tables"],1,"database management system","Original","May 2024"),
+  makeQ(63,"Transaction property for system failure",["Atomicity","Isolation","Durability","Consistency"],2,"database management system","Original","June 2023"),
+  makeQ(66,"Highest normal form with FD",["BCNF","3NF","2NF","1NF"],0,"database management system","Original","June 2023"),
+  makeQ(76,"Auto-executed on DB modification",["backup","trigger","assertion","recovery"],1,"database management system","Original","Dec 2024"),
+  makeQ(77,"Specialization is _____ process",["top-down","bottom-up","Both","None"],0,"database management system","Original","Dec 2024"),
+  makeQ(80,"Lowest abstraction level",["abstract","physical","view","user"],1,"database management system","Original","Dec 2024"),
+  // Networks
+  makeQ(81,"Endpoint in interprocess communication",["port","machine","socket","pipe"],2,"computer network","Original","May 2024"),
+  makeQ(82,"Layer handling process to process",["session","data link","transport","network"],2,"computer network","Original","May 2024"),
+  makeQ(84,"Frame < 64 octets called",["Short","Small","Mini","Runt"],3,"computer network","Original","May 2024"),
+  makeQ(85,"Communication system in building",["MAN","LAN","PAN","WAN"],1,"computer network","Original","May 2024"),
+  makeQ(86,"IPv4 total length field size",["4 bit","8 bit","16 bit","32 bit"],2,"computer network","Original","May 2024"),
+  makeQ(88,"Prevent resource access attack",["botnet","worms","virus","DoS"],3,"computer network","Original","May 2024"),
+  makeQ(89,"SSL NOT responsible for",["Authentication","Secrecy","Integrity","Error correction"],3,"computer network","Original","May 2024"),
+  makeQ(95,"Listen for carrier protocol",["ALOHA","Access","Station","CSMA"],3,"computer network","Original","June 2023"),
+  makeQ(96,"Connect Ethernet networks",["gateway","switch","bridge","forwarder"],2,"computer network","Original","June 2023"),
+  makeQ(102,"Process delivery layer",["session","data link","network","transport"],3,"computer network","Original","Dec 2024"),
+  makeQ(103,"Central controller topology",["star","ring","bus","mesh"],0,"computer network","Original","Dec 2024"),
+  makeQ(104,"Port 22 refers to",["SSL","SMTP","SSH","FTP"],2,"computer network","Original","Dec 2024"),
+  makeQ(105,"Unavailable resource attack",["slow read","DoS","Cache poison","Spoofing"],1,"computer network","Original","Dec 2024"),
+  makeQ(109,"Listen for carrier protocol",["ALOHA","CSMA","Station","Access"],1,"computer network","Original","Dec 2024"),
+  // Cryptography
+  makeQ(111,"Cryptography applications",["Digital signature","Authentication","Key generation","All of the above"],3,"cryptography","Original","May 2024"),
+  makeQ(112,"Message never rejected principle",["Privacy","Reliability","Nonrepudiation","Authentication"],2,"cryptography","Original","May 2024"),
+  makeQ(113,"Symmetric encryption algorithm",["RSA","AES","ECC","DSA"],1,"cryptography","Original","May 2024"),
+  makeQ(115,"ECC advantage over RSA",["Faster","Larger key","Smaller key size","Simpler math"],2,"cryptography","Original","May 2024"),
+  makeQ(116,"Secure communication protocol",["FTP","HTTP","SSL/TLS","SMTP"],2,"cryptography","Original","May 2024"),
+  makeQ(118,"One-way function characteristic",["Easily reversed","Computationally infeasible to invert","Symmetric","Public"],1,"cryptography","Original","May 2024"),
+  makeQ(119,"Algorithm weakness attack",["Phishing","MITM","Cryptanalysis","DoS"],2,"cryptography","Original","May 2024"),
+  makeQ(120,"AES bit size",["128 only","192 only","256 only","128/192/256"],3,"cryptography","Original","May 2024"),
+  makeQ(122,"NOT asymmetric algorithm",["DSA","ECB","DH","RSA"],1,"cryptography","Original","June 2023"),
+  makeQ(125,"SHA-512 block size",["1024","512","256","1248"],0,"cryptography","Original","June 2023"),
+  makeQ(126,"Message digest creation algorithm",["RSA","SHA-1","DES","None"],1,"cryptography","Original","June 2023"),
+  makeQ(128,"Strongest encryption",["DES","Double DES","Triple DES","AES"],3,"cryptography","Original","June 2023"),
+  makeQ(129,"RSA is _____ algorithm",["Systematic","Symmetric","Asymmetric","None"],2,"cryptography","Original","June 2023"),
+  makeQ(131,"NOT asymmetric algorithm",["RSA","DH","ECB","DSA"],2,"cryptography","Original","Dec 2024"),
+  makeQ(134,"Hash guarantees message not",["Overviewed","Replaced","Changed without detection","Violated"],2,"cryptography","Original","Dec 2024"),
+  makeQ(136,"Cryptography security goals",["Confidentiality only","Integrity only","Authenticity only","All three"],3,"cryptography","Original","Dec 2024"),
+  makeQ(137,"DES mode for short data",["CFB","CBC","ECB","OFB"],2,"cryptography","Original","Dec 2024"),
+  makeQ(140,"Symmetric algorithm",["RSA","AES","ECC","DSA"],1,"cryptography","Original","Dec 2024"),
+];
+
+// Generated questions
+function genQuestions() {
+  const qs = [];
+  let id = 200;
+  const dsTemplates = [
+    {t:"Which traversal visits nodes in Left-Root-Right order?",o:["Pre-order","In-order","Post-order","Level-order"],c:1,sub:"Data structure"},
+    {t:"Time complexity of binary search?",o:["O(n)","O(log n)","O(n²)","O(1)"],c:1,sub:"Data structure"},
+    {t:"Which data structure is used in BFS?",o:["Stack","Queue","Array","Tree"],c:1,sub:"Data structure"},
+    {t:"Which data structure is used in DFS?",o:["Queue","Stack","Graph","Heap"],c:1,sub:"Data structure"},
+    {t:"Heap property in a Max-Heap?",o:["Parent < Child","Parent > Child","Parent = Child","No relation"],c:1,sub:"Data structure"},
+    {t:"Worst-case time complexity of Quick Sort?",o:["O(n log n)","O(n²)","O(n)","O(log n)"],c:1,sub:"Data structure"},
+    {t:"Which is NOT a balanced BST?",o:["AVL Tree","Red-Black Tree","Splay Tree","Binary Tree"],c:3,sub:"Data structure"},
+    {t:"Insertion in a sorted linked list is O(?)",o:["O(1)","O(log n)","O(n)","O(n²)"],c:2,sub:"Data structure"},
+    {t:"Dequeue allows insertion and deletion at?",o:["Front only","Rear only","Both ends","Middle"],c:2,sub:"Data structure"},
+    {t:"A full binary tree node count for height h?",o:["2h","2h+1-1","2h-1","h²"],c:1,sub:"Data structure"},
+  ];
+  const osTemplates = [
+    {t:"CPU scheduling algorithm with preemption?",o:["FCFS","SJF","Round Robin","None"],c:2,sub:"operating system"},
+    {t:"What is a zombie process?",o:["Running but idle","Finished but not reaped","Waiting for I/O","Blocked"],c:1,sub:"operating system"},
+    {t:"Which is NOT a process state?",o:["Ready","Running","Waiting","Executing"],c:3,sub:"operating system"},
+    {t:"TLB stands for?",o:["Translation Lookaside Buffer","Table Lookup Buffer","Thread Load Balancer","Transfer Limit Buffer"],c:0,sub:"operating system"},
+    {t:"Thrashing means CPU utilization is",o:["Very high","Very low","Moderate","Stable"],c:1,sub:"operating system"},
+    {t:"Fork() creates a?",o:["Thread","Child process","File","Socket"],c:1,sub:"operating system"},
+    {t:"Page table entry contains?",o:["Virtual address","Frame number","Sector number","Disk block"],c:1,sub:"operating system"},
+    {t:"Shortest Job First is also called?",o:["FIFO","SPN","Priority","RR"],c:1,sub:"operating system"},
+    {t:"Monitor provides _____ access to shared data?",o:["Uncontrolled","Mutual exclusive","Random","Parallel"],c:1,sub:"operating system"},
+    {t:"P operation on semaphore means?",o:["Signal","Wait","Post","Release"],c:1,sub:"operating system"},
+  ];
+  const dbTemplates = [
+    {t:"SQL command to add new row?",o:["UPDATE","INSERT","ADD","APPEND"],c:1,sub:"database management system"},
+    {t:"Which SQL clause filters groups?",o:["WHERE","GROUP BY","HAVING","ORDER BY"],c:2,sub:"database management system"},
+    {t:"ACID stands for?",o:["Atomicity Consistency Isolation Durability","Access Control Integrity Data","Async Commit Index Delete","None"],c:0,sub:"database management system"},
+    {t:"Primary key can have NULL values?",o:["Yes","No","Depends","Sometimes"],c:1,sub:"database management system"},
+    {t:"Which join returns only matching rows?",o:["Left join","Right join","Inner join","Full join"],c:2,sub:"database management system"},
+    {t:"E-R diagram rectangle represents?",o:["Attribute","Relationship","Entity","Key"],c:2,sub:"database management system"},
+    {t:"DML stands for?",o:["Data Manipulation Language","Data Management Layer","Database Machine Language","None"],c:0,sub:"database management system"},
+    {t:"Foreign key references _____ of another table?",o:["Foreign key","Primary key","Candidate key","Any attribute"],c:1,sub:"database management system"},
+    {t:"View in SQL is a?",o:["Physical table","Virtual table","Temporary table","Indexed table"],c:1,sub:"database management system"},
+    {t:"Normalization reduces?",o:["Data","Redundancy","Performance","Queries"],c:1,sub:"database management system"},
+  ];
+  const netTemplates = [
+    {t:"DNS converts _____ to IP address?",o:["IP","MAC","Domain name","Port"],c:2,sub:"computer network"},
+    {t:"Which protocol is connectionless?",o:["TCP","FTP","UDP","HTTP"],c:2,sub:"computer network"},
+    {t:"Default subnet mask for Class C?",o:["255.0.0.0","255.255.0.0","255.255.255.0","255.255.255.255"],c:2,sub:"computer network"},
+    {t:"HTTP default port?",o:["21","22","80","443"],c:2,sub:"computer network"},
+    {t:"ARP resolves _____ to MAC?",o:["Domain name","IP address","Port","Protocol"],c:1,sub:"computer network"},
+    {t:"OSI model has how many layers?",o:["5","6","7","8"],c:2,sub:"computer network"},
+    {t:"Twisted pair cable max speed (Cat6)?",o:["100 Mbps","1 Gbps","10 Gbps","100 Gbps"],c:1,sub:"computer network"},
+    {t:"ICMP is used by which tool?",o:["FTP","ping","Telnet","SSH"],c:1,sub:"computer network"},
+    {t:"NAT stands for?",o:["Network Access Table","Network Address Translation","Node Allocation Table","None"],c:1,sub:"computer network"},
+    {t:"Which layer adds MAC address?",o:["Physical","Network","Data Link","Transport"],c:2,sub:"computer network"},
+  ];
+  const cryptoTemplates = [
+    {t:"Caesar cipher is a type of _____ cipher?",o:["Transposition","Substitution","Block","Stream"],c:1,sub:"cryptography"},
+    {t:"Which hash function produces 160-bit digest?",o:["MD5","SHA-1","SHA-256","SHA-512"],c:1,sub:"cryptography"},
+    {t:"Diffie-Hellman is used for?",o:["Encryption","Key exchange","Signing","Hashing"],c:1,sub:"cryptography"},
+    {t:"RSA security relies on?",o:["Discrete log","Integer factorization","Elliptic curves","AES"],c:1,sub:"cryptography"},
+    {t:"Which is a stream cipher?",o:["AES","DES","RC4","Blowfish"],c:2,sub:"cryptography"},
+    {t:"PKI manages?",o:["Passwords","Public key certificates","Private keys","Sessions"],c:1,sub:"cryptography"},
+    {t:"Replay attack prevention uses?",o:["Encryption","Nonce/Timestamp","Hashing","Firewall"],c:1,sub:"cryptography"},
+    {t:"MD5 produces _____ bit hash?",o:["128","160","256","512"],c:0,sub:"cryptography"},
+    {t:"SSL/TLS operates at _____ layer?",o:["Network","Transport","Session","Application"],c:2,sub:"cryptography"},
+    {t:"WPA2 uses _____ for encryption?",o:["DES","RC4","AES","RSA"],c:2,sub:"cryptography"},
+  ];
+
+  const allTemplates = [...dsTemplates,...osTemplates,...dbTemplates,...netTemplates,...cryptoTemplates];
+  for (let i = 0; i < 900; i++) {
+    const tpl = allTemplates[i % allTemplates.length];
+    qs.push(makeQ(id++, tpl.t, tpl.o, tpl.c, tpl.sub, "Generated", "Practice Set"));
+  }
+  return qs;
+}
+
+allQuestions = [...originalQuestions, ...genQuestions()];
+filteredQuestions = [...allQuestions];
+
+// ─── Subject filters ───────────────────────────────────────
+const subjects = [...new Set(allQuestions.map(q => q.subject))];
+const subjectCounts = {};
+allQuestions.forEach(q => { subjectCounts[q.subject] = (subjectCounts[q.subject] || 0) + 1; });
+
+const sfDiv = document.getElementById('subjectFilters');
+subjects.forEach(s => {
+  sfDiv.innerHTML += `<div class="checkbox-item">
+    <input type="checkbox" id="chk-${s}" value="${s}" checked onchange="filterQuestions()">
+    <label for="chk-${s}">${s}</label>
+    <span class="checkbox-count">(${subjectCounts[s]})</span>
+  </div>`;
+});
+
+// ─── Filter Logic ──────────────────────────────────────────
+function filterQuestions() {
+  const s1 = document.getElementById('searchInput').value.toLowerCase();
+  const s2 = document.getElementById('mainSearch').value.toLowerCase();
+  const term = s1 || s2;
+
+  const checkedSubjects = [...document.querySelectorAll('#subjectFilters input:checked')].map(c => c.value);
+  const checkedTypes = [...document.querySelectorAll('.content-area input[type=checkbox]:checked, .sidebar input[type=checkbox][value=Original]:checked, .sidebar input[type=checkbox][value=Generated]:checked')].map(c => c.value);
+  const typeChecked = [];
+  if (document.getElementById('chk-Original')?.checked) typeChecked.push('Original');
+  if (document.getElementById('chk-Generated')?.checked) typeChecked.push('Generated');
+
+  filteredQuestions = allQuestions.filter(q => {
+    const matchTerm = !term || q.text.toLowerCase().includes(term) || String(q.id).includes(term);
+    const matchSubj = checkedSubjects.includes(q.subject);
+    const matchType = typeChecked.length === 0 || typeChecked.includes(q.type);
+    return matchTerm && matchSubj && matchType;
+  });
+  currentPage = 1;
+  render();
+}
+
+function resetFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('mainSearch').value = '';
+  document.querySelectorAll('.sidebar input[type=checkbox]').forEach(c => c.checked = true);
+  filterQuestions();
+}
+
+// ─── Stats ─────────────────────────────────────────────────
+function updateStats() {
+  document.getElementById('sTotal').textContent = allQuestions.length;
+  document.getElementById('sFiltered').textContent = filteredQuestions.length;
+  const attempted = Object.keys(userAnswers).length;
+  document.getElementById('sAttempted').textContent = attempted;
+  const correct = Object.values(userAnswers).filter(v => v.isCorrect).length;
+  document.getElementById('sCorrect').textContent = correct;
+  document.getElementById('sScore').textContent = attempted ? Math.round(correct/attempted*100)+'%' : '0%';
+}
+
+// ─── Render ────────────────────────────────────────────────
+function render() {
+  updateStats();
+  const list = document.getElementById('questionsList');
+  list.innerHTML = '';
+
+  const start = (currentPage-1)*PER_PAGE;
+  const page = filteredQuestions.slice(start, start+PER_PAGE);
+
+  if (!page.length) {
+    list.innerHTML = '<div class="empty-state"><div style="font-size:2.5em">🔍</div><p style="margin-top:10px">No questions match your filters</p></div>';
+    renderPagination();
+    return;
+  }
+
+  page.forEach(q => {
+    const ans = userAnswers[q.id];
+    const isCorrect = ans?.isCorrect;
+    const card = document.createElement('div');
+    card.className = 'question-card' + (ans ? (isCorrect ? ' answered-correct' : ' answered-wrong') : '');
+    card.id = 'card-'+q.id;
+
+    const statusIcon = ans ? (isCorrect ? '✅' : '❌') : '';
+    card.innerHTML = `
+      <div class="q-header" onclick="toggleCard(${q.id})">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="q-num">Q${q.id}</span>
+            <span style="font-size:.85em">${statusIcon}</span>
+          </div>
+          <div class="q-text">${q.text}</div>
+          <div class="q-tags">
+            <span class="tag">${q.subject}</span>
+            <span class="tag ${q.type==='Generated'?'gen':''}">${q.type}</span>
+            <span class="tag" style="background:#f0f0f0;color:#666">${q.exam}</span>
+          </div>
+        </div>
+        <span class="q-arrow">▼</span>
+      </div>
+      <div class="q-body" id="body-${q.id}">
+        <div class="options-grid" id="opts-${q.id}"></div>
+        <div class="explanation" id="exp-${q.id}"></div>
+      </div>`;
+    list.appendChild(card);
+
+    // Render options
+    const optsDiv = document.getElementById('opts-'+q.id);
+    q.options.forEach((opt, i) => {
+      const div = document.createElement('div');
+      div.className = 'opt';
+      div.id = `opt-${q.id}-${i}`;
+      if (ans) {
+        if (i === q.correct) div.classList.add('correct');
+        else if (i === ans.chosen) div.classList.add('wrong');
+        else div.classList.add('dimmed');
+      }
+      div.innerHTML = `<span class="opt-label">${labels[i]})</span><span>${opt}</span>`;
+      if (!ans) div.onclick = (e) => { e.stopPropagation(); selectAnswer(q, i); };
+      optsDiv.appendChild(div);
+    });
+
+    // Show explanation if already answered
+    if (ans) {
+      showExplanation(q, ans.chosen, ans.isCorrect, ans.text);
+    }
+  });
+
+  renderPagination();
+}
+
+function toggleCard(qid) {
+  const card = document.getElementById('card-'+qid);
+  card.classList.toggle('expanded');
+}
+
+function selectAnswer(q, chosen) {
+  const result = getExplanation(q, chosen);
+  userAnswers[q.id] = { chosen, isCorrect: result.isCorrect, text: result.text };
+
+  // Update card class
+  const card = document.getElementById('card-'+q.id);
+  card.classList.remove('answered-correct','answered-wrong');
+  card.classList.add(result.isCorrect ? 'answered-correct' : 'answered-wrong');
+
+  // Update status icon
+  const qnum = card.querySelector('.q-num');
+  const sibling = qnum.nextElementSibling;
+  sibling.textContent = result.isCorrect ? '✅' : '❌';
+
+  // Color options
+  q.options.forEach((_, i) => {
+    const opt = document.getElementById(`opt-${q.id}-${i}`);
+    opt.classList.remove('correct','wrong','dimmed');
+    if (i === q.correct) opt.classList.add('correct');
+    else if (i === chosen) opt.classList.add('wrong');
+    else opt.classList.add('dimmed');
+    opt.onclick = null;
+  });
+
+  showExplanation(q, chosen, result.isCorrect, result.text);
+  updateStats();
+}
+
+function showExplanation(q, chosen, isCorrect, text) {
+  const expDiv = document.getElementById('exp-'+q.id);
+  if (!expDiv) return;
+  expDiv.className = 'explanation ' + (isCorrect ? 'correct-exp' : 'wrong-exp');
+  const icon = isCorrect ? '✅' : '💡';
+  const title = isCorrect ? 'Why this is correct:' : 'Why this is wrong:';
+  expDiv.innerHTML = `<div class="exp-title">${icon} ${title}</div>${text}`;
+  expDiv.style.display = 'block';
+}
+
+function renderPagination() {
+  const div = document.getElementById('pagination');
+  div.innerHTML = '';
+  const total = Math.ceil(filteredQuestions.length / PER_PAGE);
+  if (total <= 1) return;
+
+  const addBtn = (label, page, active=false, disabled=false) => {
+    const btn = document.createElement('button');
+    btn.textContent = label;
+    if (active) btn.classList.add('active');
+    if (disabled) btn.disabled = true;
+    btn.onclick = () => { currentPage = page; render(); document.querySelector('.questions-list').scrollTop = 0; };
+    div.appendChild(btn);
+  };
+
+  addBtn('«', 1, false, currentPage===1);
+  addBtn('‹', currentPage-1, false, currentPage===1);
+
+  let start = Math.max(1, currentPage-2), end = Math.min(total, start+4);
+  if (end-start < 4) start = Math.max(1, end-4);
+  for (let i=start; i<=end; i++) addBtn(i, i, i===currentPage);
+
+  addBtn('›', currentPage+1, false, currentPage===total);
+  addBtn('»', total, false, currentPage===total);
+}
+
+// ─── Init ──────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
