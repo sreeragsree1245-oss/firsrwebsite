@@ -162,6 +162,114 @@ body.dark-mode .diff-rating{border-color:#3d3d5f;color:#777}
 .diff-star.active{opacity:1}
 .diff-star:hover,.diff-star:hover~.diff-star{opacity:.6}
 .diff-labels{font-size:.72em;color:#aaa;margin-left:4px}
+
+/* ── Mode Tab Switcher ── */
+.mode-tabs{display:flex;gap:0;margin-bottom:0;border-radius:12px 12px 0 0;overflow:hidden;box-shadow:0 -2px 10px rgba(0,0,0,.15)}
+.mode-tab{flex:1;padding:13px 10px;background:rgba(255,255,255,.18);border:none;color:white;font-size:.95em;font-weight:700;cursor:pointer;transition:all .25s;letter-spacing:.3px}
+.mode-tab.active{background:white;color:#667eea}
+.mode-tab:hover:not(.active){background:rgba(255,255,255,.28)}
+body.dark-mode .mode-tab{background:rgba(30,30,60,.4);color:#ccc}
+body.dark-mode .mode-tab.active{background:#1e1e2e;color:#a78bfa}
+
+/* ── Exam Setup Panel ── */
+.exam-setup{background:white;border-radius:0 0 12px 12px;padding:28px;box-shadow:0 8px 24px rgba(0,0,0,.2);max-width:680px;margin:0 auto}
+body.dark-mode .exam-setup{background:#1e1e2e;color:#e0e0e0}
+.exam-setup h2{color:#667eea;font-size:1.2em;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+body.dark-mode .exam-setup h2{color:#a78bfa}
+.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:580px){.setup-grid{grid-template-columns:1fr}}
+.setup-field label{display:block;font-weight:700;color:#555;font-size:.85em;margin-bottom:6px}
+body.dark-mode .setup-field label{color:#bbb}
+.setup-field select,.setup-field input[type=number]{width:100%;padding:10px 12px;border:2px solid #e0e0e0;border-radius:8px;font-size:.9em;transition:all .2s}
+.setup-field select:focus,.setup-field input[type=number]:focus{outline:none;border-color:#667eea}
+body.dark-mode .setup-field select,body.dark-mode .setup-field input[type=number]{background:#2d2d3f;border-color:#444;color:#e0e0e0}
+.start-exam-btn{width:100%;padding:14px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:10px;font-size:1.05em;font-weight:700;cursor:pointer;transition:all .3s;letter-spacing:.5px}
+.start-exam-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(102,126,234,.4)}
+.exam-info-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.exam-info-chip{background:#f0f0ff;color:#667eea;border-radius:20px;padding:6px 14px;font-size:.82em;font-weight:600}
+body.dark-mode .exam-info-chip{background:#2d2d5f;color:#a78bfa}
+
+/* ── Exam Paper ── */
+.exam-paper{background:white;border-radius:0 0 12px 12px;padding:0;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+body.dark-mode .exam-paper{background:#1e1e2e}
+.exam-header-bar{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.exam-header-bar h3{font-size:1em;font-weight:700}
+.exam-timer{font-size:1.2em;font-weight:800;background:rgba(255,255,255,.2);padding:6px 16px;border-radius:20px;font-family:monospace;min-width:80px;text-align:center}
+.exam-timer.warn{background:rgba(255,100,100,.4);animation:pulse .8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.exam-progress-bar{height:4px;background:rgba(255,255,255,.3)}
+.exam-progress-fill{height:100%;background:rgba(255,255,255,.85);transition:width .3s}
+.exam-questions-wrap{padding:20px 24px;max-height:65vh;overflow-y:auto}
+@media(max-width:600px){.exam-questions-wrap{padding:14px}}
+
+/* ── Exam Question Card ── */
+.eq-card{background:#f8f9ff;border:2px solid #e8eaf6;border-radius:10px;margin-bottom:18px;overflow:hidden;transition:border-color .2s}
+body.dark-mode .eq-card{background:#252535;border-color:#3d3d5f}
+.eq-card.answered{border-color:#667eea}
+.eq-num-row{background:#667eea;color:white;padding:8px 16px;font-size:.82em;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+body.dark-mode .eq-num-row{background:#4c3d9e}
+.eq-text{padding:14px 16px 10px;font-size:.94em;color:#222;line-height:1.6;font-weight:500}
+body.dark-mode .eq-text{color:#ddd}
+.eq-options{padding:4px 16px 14px;display:flex;flex-direction:column;gap:8px}
+.eq-opt{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:all .2s;background:white;font-size:.9em}
+body.dark-mode .eq-opt{background:#2d2d45;border-color:#3d3d5f;color:#ddd}
+.eq-opt:hover{border-color:#667eea;background:#f0f3ff}
+body.dark-mode .eq-opt:hover{border-color:#a78bfa;background:#3d3d5f}
+.eq-opt input[type=radio]{margin-top:2px;flex-shrink:0;accent-color:#667eea;width:16px;height:16px;cursor:pointer}
+.eq-opt-label{font-weight:700;color:#667eea;min-width:20px;flex-shrink:0}
+body.dark-mode .eq-opt-label{color:#a78bfa}
+.eq-opt.selected{border-color:#667eea;background:#eef0ff}
+body.dark-mode .eq-opt.selected{border-color:#a78bfa;background:#3a3a5f}
+
+/* ── Result States (after submit) ── */
+.eq-opt.res-correct{border-color:#28a745!important;background:#d4edda!important;color:#155724!important}
+.eq-opt.res-correct .eq-opt-label{color:#155724!important}
+.eq-opt.res-wrong{border-color:#dc3545!important;background:#f8d7da!important;color:#721c24!important}
+.eq-opt.res-wrong .eq-opt-label{color:#721c24!important}
+.eq-opt.res-dimmed{opacity:.4;pointer-events:none}
+.eq-exp{margin:0 16px 14px;padding:11px 14px;border-radius:7px;font-size:.85em;line-height:1.6}
+.eq-exp.correct{background:#eafaf1;border-left:4px solid #28a745;color:#155724}
+.eq-exp.wrong{background:#fef9e7;border-left:4px solid #e67e22;color:#5d4037}
+.eq-exp-title{font-weight:700;margin-bottom:4px}
+.eq-unanswered-badge{background:#fff3cd;color:#856404;padding:2px 10px;border-radius:20px;font-size:.75em;font-weight:700}
+
+/* ── Exam Submit Bar ── */
+.exam-submit-bar{padding:16px 24px;border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:#fafafa;border-radius:0 0 12px 12px}
+body.dark-mode .exam-submit-bar{border-top-color:#3d3d5f;background:#252535}
+.exam-answered-count{font-size:.88em;color:#666;font-weight:600}
+body.dark-mode .exam-answered-count{color:#aaa}
+.submit-exam-btn{padding:12px 28px;background:linear-gradient(135deg,#28a745,#20c997);color:white;border:none;border-radius:10px;font-size:1em;font-weight:700;cursor:pointer;transition:all .3s}
+.submit-exam-btn:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(40,167,69,.35)}
+.submit-exam-btn:disabled{background:#ccc;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ── Score Card ── */
+.score-card{background:white;border-radius:0 0 12px 12px;padding:0;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+body.dark-mode .score-card{background:#1e1e2e}
+.score-hero{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:30px 24px;text-align:center}
+.score-pct{font-size:3.5em;font-weight:900;line-height:1}
+.score-grade{font-size:1.2em;margin-top:6px;opacity:.9;font-weight:600}
+.score-meta{display:flex;justify-content:center;gap:24px;margin-top:18px;flex-wrap:wrap}
+.score-meta-item{text-align:center}
+.score-meta-item .val{font-size:1.6em;font-weight:800}
+.score-meta-item .lbl{font-size:.72em;opacity:.8;margin-top:2px}
+.score-subject-grid{padding:20px 24px}
+.score-subject-grid h3{font-size:1em;color:#555;font-weight:700;margin-bottom:12px}
+body.dark-mode .score-subject-grid h3{color:#aaa}
+.subj-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:.85em}
+.subj-name{width:160px;flex-shrink:0;font-weight:600;color:#444}
+body.dark-mode .subj-name{color:#ccc}
+.subj-track{flex:1;background:#f0f0f0;border-radius:20px;height:20px;overflow:hidden}
+body.dark-mode .subj-track{background:#2d2d45}
+.subj-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.75em;font-weight:700;color:white;transition:width .8s ease}
+.score-actions{display:flex;gap:10px;padding:0 24px 24px;flex-wrap:wrap}
+.score-action-btn{flex:1;padding:12px;border:none;border-radius:10px;font-size:.9em;font-weight:700;cursor:pointer;transition:all .25s;min-width:140px}
+.score-action-btn.primary{background:linear-gradient(135deg,#667eea,#764ba2);color:white}
+.score-action-btn.secondary{background:#f5f5f5;color:#444;border:1.5px solid #ddd}
+body.dark-mode .score-action-btn.secondary{background:#2d2d3f;color:#ccc;border-color:#444}
+.score-action-btn:hover{transform:translateY(-2px)}
+.review-section{padding:0 24px 24px}
+.review-section h3{font-size:1em;color:#555;font-weight:700;margin-bottom:14px;padding-top:16px;border-top:1px solid #eee}
+body.dark-mode .review-section h3{color:#aaa;border-top-color:#3d3d5f}
 </style>
 </head>
 <body>
@@ -178,10 +286,18 @@ body.dark-mode .diff-rating{border-color:#3d3d5f;color:#777}
 <div class="container">
   <header>
     <h1>📚 KTU CCT308 Exam Prep Pro</h1>
-    <p>Comprehensive Course Work · 200+ Interactive MCQ Practice</p>
-    <span class="badge">✨ Original + Generated Practice Questions</span>
+    <p>Comprehensive Course Work · 600+ Interactive MCQ Practice</p>
+    <span class="badge">✨ Original + Generated + PDF Practice Questions</span>
   </header>
 
+  <!-- Mode Tabs -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" id="tabStudy" onclick="switchMode('study')">📖 Study Mode</button>
+    <button class="mode-tab" id="tabExam" onclick="switchMode('exam')">📝 Exam Mode</button>
+  </div>
+
+  <!-- ═══════════════ STUDY MODE ═══════════════ -->
+  <div id="studyMode">
   <div class="main-grid">
     <div class="sidebar">
       <h3>🎛 Study Tools</h3>
@@ -223,6 +339,111 @@ body.dark-mode .diff-rating{border-color:#3d3d5f;color:#777}
       <div class="pagination" id="pagination"></div>
     </div>
   </div>
+  </div><!-- /studyMode -->
+
+  <!-- ═══════════════ EXAM MODE ═══════════════ -->
+  <div id="examMode" style="display:none">
+
+    <!-- Setup Panel -->
+    <div id="examSetup" class="exam-setup">
+      <h2>🎯 Start a PYQ Practice Exam</h2>
+      <p style="color:#888;font-size:.88em;margin-bottom:18px;">Select your preferences and hit Start. Answer all questions, then Submit to see your score.</p>
+      <div class="setup-grid">
+        <div class="setup-field">
+          <label>📋 Subject</label>
+          <select id="examSubject">
+            <option value="all">All Subjects</option>
+            <option value="Data structure">Data Structures</option>
+            <option value="operating system">Operating Systems</option>
+            <option value="database management system">Database Management</option>
+            <option value="computer network">Computer Networks</option>
+            <option value="cryptography">Cryptography</option>
+          </select>
+        </div>
+        <div class="setup-field">
+          <label>🔢 Number of Questions</label>
+          <select id="examCount">
+            <option value="10">10 Questions</option>
+            <option value="20" selected>20 Questions</option>
+            <option value="30">30 Questions</option>
+            <option value="50">50 Questions</option>
+            <option value="0">All Available</option>
+          </select>
+        </div>
+        <div class="setup-field">
+          <label>⏱ Time Limit</label>
+          <select id="examTime">
+            <option value="0">No Time Limit</option>
+            <option value="10">10 Minutes</option>
+            <option value="20" selected>20 Minutes</option>
+            <option value="30">30 Minutes</option>
+            <option value="60">60 Minutes</option>
+          </select>
+        </div>
+        <div class="setup-field">
+          <label>📁 Question Type</label>
+          <select id="examType">
+            <option value="all">All Types</option>
+            <option value="Original">Original PYQ Only</option>
+            <option value="Generated">Generated Only</option>
+            <option value="PDF">PDF/KTU Exam Only</option>
+          </select>
+        </div>
+      </div>
+      <button class="start-exam-btn" onclick="startExam()">🚀 Start Exam</button>
+    </div>
+
+    <!-- Exam Paper -->
+    <div id="examPaper" class="exam-paper" style="display:none">
+      <div class="exam-header-bar">
+        <div>
+          <h3 id="examTitle">KTU CCT308 Practice Exam</h3>
+          <div id="examSubjectLabel" style="font-size:.8em;opacity:.8;margin-top:2px"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div id="examTimerDisplay" class="exam-timer">--:--</div>
+          <button onclick="quitExam()" style="background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.4);color:white;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:.82em;font-weight:700;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.35)'" onmouseout="this.style.background='rgba(255,255,255,.2)'">✕ Quit</button>
+        </div>
+      </div>
+      <div class="exam-progress-bar"><div class="exam-progress-fill" id="examProgressFill" style="width:0%"></div></div>
+      <div class="exam-questions-wrap" id="examQuestionsWrap"></div>
+      <div class="exam-submit-bar">
+        <div class="exam-answered-count" id="examAnsweredCount">0 of 0 answered</div>
+        <div style="display:flex;gap:10px">
+          <button onclick="quitExam()" style="padding:12px 20px;background:#f5f5f5;border:1.5px solid #ddd;border-radius:10px;font-size:.9em;font-weight:700;cursor:pointer;color:#666;transition:all .2s" onmouseover="this.style.background='#ffe0e0';this.style.borderColor='#dc3545';this.style.color='#dc3545'" onmouseout="this.style.background='#f5f5f5';this.style.borderColor='#ddd';this.style.color='#666'">✕ Quit</button>
+          <button class="submit-exam-btn" id="submitExamBtn" onclick="confirmSubmitExam()">✅ Submit Exam</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Score Card -->
+    <div id="examScoreCard" class="score-card" style="display:none">
+      <div class="score-hero">
+        <div class="score-pct" id="scorePct">0%</div>
+        <div class="score-grade" id="scoreGrade">–</div>
+        <div class="score-meta">
+          <div class="score-meta-item"><div class="val" id="scoreCorrect">0</div><div class="lbl">Correct</div></div>
+          <div class="score-meta-item"><div class="val" id="scoreWrong">0</div><div class="lbl">Wrong</div></div>
+          <div class="score-meta-item"><div class="val" id="scoreSkipped">0</div><div class="lbl">Skipped</div></div>
+          <div class="score-meta-item"><div class="val" id="scoreTotal">0</div><div class="lbl">Total</div></div>
+        </div>
+      </div>
+      <div class="score-subject-grid">
+        <h3>📊 Subject-wise Breakdown</h3>
+        <div id="scoreSubjectBars"></div>
+      </div>
+      <div class="score-actions">
+        <button class="score-action-btn primary" onclick="toggleReview()">🔍 Review Answers</button>
+        <button class="score-action-btn secondary" onclick="retakeExam()">🔄 Retake Same</button>
+        <button class="score-action-btn secondary" onclick="newExam()">🆕 New Exam</button>
+      </div>
+      <div class="review-section" id="reviewSection" style="display:none">
+        <h3>📋 Detailed Review</h3>
+        <div id="reviewQuestionsWrap"></div>
+      </div>
+    </div>
+
+  </div><!-- /examMode -->
 </div>
 
 <script>
@@ -2057,6 +2278,326 @@ function doResetAllAnswers() {
 loadProgress();
 initDark();
 render();
+
+// ═══════════════════════════════════════════════════════════
+//  EXAM MODE
+// ═══════════════════════════════════════════════════════════
+let examQuestions = [], examAnswers = {}, examTimerInterval = null, examTimeSec = 0, examStartTime = null;
+let lastExamConfig = null;
+
+function switchMode(mode) {
+  document.getElementById('studyMode').style.display = mode === 'study' ? '' : 'none';
+  document.getElementById('examMode').style.display  = mode === 'exam'  ? '' : 'none';
+  document.getElementById('tabStudy').classList.toggle('active', mode === 'study');
+  document.getElementById('tabExam').classList.toggle('active', mode === 'exam');
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startExam() {
+  const subj   = document.getElementById('examSubject').value;
+  const count  = parseInt(document.getElementById('examCount').value);
+  const mins   = parseInt(document.getElementById('examTime').value);
+  const qtype  = document.getElementById('examType').value;
+
+  let pool = allQuestions.filter(q =>
+    (subj  === 'all' || q.subject === subj) &&
+    (qtype === 'all' || q.type === qtype)
+  );
+
+  if (!pool.length) { alert('No questions match your selection. Try different filters.'); return; }
+
+  pool = shuffleArray(pool);
+  examQuestions = count > 0 ? pool.slice(0, Math.min(count, pool.length)) : pool;
+  examAnswers = {};
+  lastExamConfig = { subj, count, mins, qtype };
+  examStartTime = Date.now();
+
+  // Build paper
+  const wrap = document.getElementById('examQuestionsWrap');
+  wrap.innerHTML = '';
+  examQuestions.forEach((q, idx) => {
+    const card = document.createElement('div');
+    card.className = 'eq-card';
+    card.id = 'eq-'+q.id;
+
+    const subjLabel = `<span style="font-size:.75em;opacity:.75">${q.subject} · ${q.exam}</span>`;
+    card.innerHTML = `
+      <div class="eq-num-row">
+        <span>Question ${idx+1} of ${examQuestions.length}</span>
+        ${subjLabel}
+      </div>
+      <div class="eq-text">${q.text}</div>
+      <div class="eq-options" id="eqopts-${q.id}">
+        ${q.options.map((opt, i) => `
+          <label class="eq-opt" id="eqopt-${q.id}-${i}" onclick="selectExamOpt(${q.id}, ${i})">
+            <input type="radio" name="eq-${q.id}" value="${i}">
+            <span class="eq-opt-label">${['A','B','C','D'][i]})</span>
+            <span>${opt}</span>
+          </label>`).join('')}
+      </div>`;
+    wrap.appendChild(card);
+  });
+
+  updateExamAnsweredCount();
+
+  // Timer
+  clearInterval(examTimerInterval);
+  if (mins > 0) {
+    examTimeSec = mins * 60;
+    updateTimerDisplay();
+    examTimerInterval = setInterval(() => {
+      examTimeSec--;
+      updateTimerDisplay();
+      if (examTimeSec <= 0) { clearInterval(examTimerInterval); submitExam(true); }
+    }, 1000);
+    document.getElementById('examTimerDisplay').textContent = formatTime(examTimeSec);
+  } else {
+    document.getElementById('examTimerDisplay').textContent = '∞';
+  }
+
+  const titleSubj = subj === 'all' ? 'All Subjects' : subj.charAt(0).toUpperCase() + subj.slice(1);
+  document.getElementById('examTitle').textContent = `KTU CCT308 — ${titleSubj}`;
+  document.getElementById('examSubjectLabel').textContent = `${examQuestions.length} Questions · ${mins > 0 ? mins+' min' : 'Untimed'}`;
+
+  document.getElementById('examSetup').style.display = 'none';
+  document.getElementById('examPaper').style.display = '';
+  document.getElementById('examScoreCard').style.display = 'none';
+}
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById('examTimerDisplay');
+  if (!el || el.textContent === '∞') return;
+  el.textContent = formatTime(examTimeSec);
+  el.classList.toggle('warn', examTimeSec <= 60);
+}
+
+function selectExamOpt(qid, optIdx) {
+  examAnswers[qid] = optIdx;
+  // Update visual
+  const q = examQuestions.find(q => q.id === qid);
+  if (!q) return;
+  q.options.forEach((_, i) => {
+    const el = document.getElementById(`eqopt-${qid}-${i}`);
+    if (el) el.classList.toggle('selected', i === optIdx);
+  });
+  document.getElementById('eq-'+qid)?.classList.add('answered');
+  updateExamAnsweredCount();
+}
+
+function updateExamAnsweredCount() {
+  const ans = Object.keys(examAnswers).length;
+  const tot = examQuestions.length;
+  document.getElementById('examAnsweredCount').textContent = `${ans} of ${tot} answered`;
+  const pct = tot ? (ans / tot * 100) : 0;
+  document.getElementById('examProgressFill').style.width = pct + '%';
+}
+
+function confirmSubmitExam() {
+  const ans = Object.keys(examAnswers).length;
+  const tot = examQuestions.length;
+  const skipped = tot - ans;
+  if (skipped > 0) {
+    const existing = document.getElementById('submitConfirmBox');
+    if (existing) { existing.remove(); return; }
+    const box = document.createElement('div');
+    box.id = 'submitConfirmBox';
+    box.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
+    box.innerHTML = `
+      <div style="background:white;border-radius:14px;padding:28px 24px;max-width:320px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+        <div style="font-size:2em;margin-bottom:10px;">⚠️</div>
+        <div style="font-size:1.05em;font-weight:700;color:#222;margin-bottom:8px;">Submit with ${skipped} unanswered?</div>
+        <div style="font-size:.88em;color:#666;margin-bottom:22px;line-height:1.5;">You have <strong>${skipped}</strong> skipped question(s). Skipped questions will be marked wrong.</div>
+        <div style="display:flex;gap:10px;justify-content:center;">
+          <button onclick="document.getElementById('submitConfirmBox').remove()" style="padding:10px 22px;border:1.5px solid #ddd;background:#f5f5f5;border-radius:8px;cursor:pointer;font-weight:600;font-size:.9em;">Go Back</button>
+          <button onclick="document.getElementById('submitConfirmBox').remove();submitExam(false)" style="padding:10px 22px;border:none;background:#28a745;color:white;border-radius:8px;cursor:pointer;font-weight:700;font-size:.9em;">Submit Anyway</button>
+        </div>
+      </div>`;
+    document.body.appendChild(box);
+    return;
+  }
+  submitExam(false);
+}
+
+function submitExam(autoSubmit) {
+  clearInterval(examTimerInterval);
+  const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
+
+  let correct = 0, wrong = 0, skipped = 0;
+  const subjStats = {};
+
+  examQuestions.forEach(q => {
+    const s = q.subject;
+    if (!subjStats[s]) subjStats[s] = { correct: 0, total: 0 };
+    subjStats[s].total++;
+
+    const chosen = examAnswers[q.id];
+    if (chosen === undefined) { skipped++; return; }
+    if (chosen === q.correct) { correct++; subjStats[s].correct++; }
+    else wrong++;
+  });
+
+  const total = examQuestions.length;
+  const attempted = correct + wrong;
+  const pct = total ? Math.round(correct / total * 100) : 0;
+
+  // Grade
+  let grade = '', gradeColor = '';
+  if (pct >= 90) { grade = '🏆 Outstanding — S Grade'; gradeColor = '#28a745'; }
+  else if (pct >= 75) { grade = '🥇 Excellent — A Grade'; gradeColor = '#20c997'; }
+  else if (pct >= 60) { grade = '✅ Good — B Grade'; gradeColor = '#667eea'; }
+  else if (pct >= 50) { grade = '👍 Pass — C Grade'; gradeColor = '#fd7e14'; }
+  else { grade = '❌ Needs Improvement'; gradeColor = '#dc3545'; }
+
+  document.getElementById('scorePct').textContent = pct + '%';
+  document.getElementById('scorePct').style.textShadow = '0 0 20px rgba(255,255,255,.5)';
+  document.getElementById('scoreGrade').textContent = grade;
+  document.getElementById('scoreCorrect').textContent = correct;
+  document.getElementById('scoreWrong').textContent = wrong;
+  document.getElementById('scoreSkipped').textContent = skipped;
+  document.getElementById('scoreTotal').textContent = total;
+
+  // Subject bars
+  const barsEl = document.getElementById('scoreSubjectBars');
+  barsEl.innerHTML = '';
+  const maxT = Math.max(...Object.values(subjStats).map(v => v.total));
+  Object.entries(subjStats).forEach(([subj, { correct: c, total: t }]) => {
+    const pctS = t ? Math.round(c / t * 100) : 0;
+    const barW = maxT ? Math.round(t / maxT * 100) : 100;
+    barsEl.innerHTML += `<div class="subj-row">
+      <div class="subj-name" title="${subj}">${subj.length > 20 ? subj.slice(0,18)+'…' : subj}</div>
+      <div class="subj-track"><div class="subj-fill" style="width:${barW}%">${barW > 15 ? c+'/'+t+' ('+pctS+'%)' : ''}</div></div>
+    </div>`;
+  });
+
+  // Hide review section until clicked
+  document.getElementById('reviewSection').style.display = 'none';
+
+  document.getElementById('examPaper').style.display = 'none';
+  document.getElementById('examScoreCard').style.display = '';
+}
+
+let reviewBuilt = false;
+function toggleReview() {
+  const sec = document.getElementById('reviewSection');
+  if (sec.style.display === 'none') {
+    if (!reviewBuilt) buildReview();
+    sec.style.display = '';
+    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    sec.style.display = 'none';
+  }
+}
+
+function buildReview() {
+  reviewBuilt = true;
+  const wrap = document.getElementById('reviewQuestionsWrap');
+  wrap.innerHTML = '';
+  const optLetters = ['A','B','C','D'];
+
+  examQuestions.forEach((q, idx) => {
+    const chosen = examAnswers[q.id];
+    const isCorrect = chosen === q.correct;
+    const unanswered = chosen === undefined;
+
+    const card = document.createElement('div');
+    card.className = 'eq-card';
+    card.style.marginBottom = '20px';
+    const statusIcon = unanswered ? '⬜' : (isCorrect ? '✅' : '❌');
+    const numBg = unanswered ? '#888' : (isCorrect ? '#28a745' : '#dc3545');
+
+    let optsHtml = q.options.map((opt, i) => {
+      let cls = 'eq-opt';
+      if (i === q.correct) cls += ' res-correct';
+      else if (i === chosen && !isCorrect) cls += ' res-wrong';
+      else cls += ' res-dimmed';
+      return `<div class="${cls}"><span class="eq-opt-label">${optLetters[i]})</span><span>${opt}</span></div>`;
+    }).join('');
+
+    const exp = explanations[q.id];
+    let expHtml = '';
+    if (exp) {
+      const expClass = unanswered ? 'wrong' : (isCorrect ? 'correct' : 'wrong');
+      const expTitle = unanswered ? '⬜ Not Answered' : (isCorrect ? '✅ Why this is correct:' : '💡 Why this is wrong:');
+      const expText = unanswered ? `Correct answer: ${optLetters[q.correct]}) ${q.options[q.correct]}` : (isCorrect ? exp.correct : exp.wrong);
+      expHtml = `<div class="eq-exp ${expClass}"><div class="eq-exp-title">${expTitle}</div>${expText}</div>`;
+    }
+
+    card.innerHTML = `
+      <div class="eq-num-row" style="background:${numBg}">
+        <span>${statusIcon} Question ${idx+1}</span>
+        <span style="font-size:.75em;opacity:.8">${q.subject}</span>
+      </div>
+      <div class="eq-text">${q.text}</div>
+      <div class="eq-options">${optsHtml}</div>
+      ${expHtml}`;
+    wrap.appendChild(card);
+  });
+}
+
+function retakeExam() {
+  reviewBuilt = false;
+  if (lastExamConfig) {
+    // Restore config and restart
+    document.getElementById('examSubject').value = lastExamConfig.subj;
+    document.getElementById('examCount').value   = lastExamConfig.count;
+    document.getElementById('examTime').value    = lastExamConfig.mins;
+    document.getElementById('examType').value    = lastExamConfig.qtype;
+  }
+  document.getElementById('examScoreCard').style.display = 'none';
+  document.getElementById('examSetup').style.display = '';
+  // Auto-start with same config
+  setTimeout(startExam, 50);
+}
+
+function newExam() {
+  reviewBuilt = false;
+  clearInterval(examTimerInterval);
+  document.getElementById('examScoreCard').style.display = 'none';
+  document.getElementById('examPaper').style.display = 'none';
+  document.getElementById('examSetup').style.display = '';
+}
+
+function quitExam() {
+  const existing = document.getElementById('quitConfirmBox');
+  if (existing) { existing.remove(); return; }
+  const box = document.createElement('div');
+  box.id = 'quitConfirmBox';
+  box.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
+  box.innerHTML = `
+    <div style="background:white;border-radius:14px;padding:28px 24px;max-width:320px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+      <div style="font-size:2em;margin-bottom:10px;">🚪</div>
+      <div style="font-size:1.05em;font-weight:700;color:#222;margin-bottom:8px;">Quit this exam?</div>
+      <div style="font-size:.88em;color:#666;margin-bottom:22px;line-height:1.5;">Your answers will be lost and you'll return to the setup screen.</div>
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button onclick="document.getElementById('quitConfirmBox').remove()" style="padding:10px 22px;border:1.5px solid #ddd;background:#f5f5f5;border-radius:8px;cursor:pointer;font-weight:600;font-size:.9em;">Cancel</button>
+        <button onclick="doQuitExam()" style="padding:10px 22px;border:none;background:#dc3545;color:white;border-radius:8px;cursor:pointer;font-weight:700;font-size:.9em;">Yes, Quit</button>
+      </div>
+    </div>`;
+  document.body.appendChild(box);
+}
+
+function doQuitExam() {
+  const box = document.getElementById('quitConfirmBox');
+  if (box) box.remove();
+  clearInterval(examTimerInterval);
+  reviewBuilt = false;
+  document.getElementById('examPaper').style.display = 'none';
+  document.getElementById('examScoreCard').style.display = 'none';
+  document.getElementById('examSetup').style.display = '';
+}
 </script>
 </body>
 </html>
